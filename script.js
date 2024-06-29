@@ -77,49 +77,40 @@ const validateForm = (e) => {
     ) {
         calculateAge(dd, mm, yyyy);
     } else {
-        // Reset the results
         days.textContent =
             months.textContent =
             years.textContent =
             '- -';
-        const emElements = document.querySelectorAll('em');
-        emElements.forEach(element => {
-            element.style.color = 'hsl(0, 0%, 8%)';
-        });
     }
 };
 
 const calculateAge = (day, month, year) => {
     const birthDate = new Date(year, month - 1, day);
 
-    let years = currentDate.getFullYear() - birthDate.getFullYear();
-    let months = currentDate.getMonth() - birthDate.getMonth();
-    let days = currentDate.getDate() - birthDate.getDate();
+    let ageYears = currentDate.getFullYear() - birthDate.getFullYear();
+    let ageMonths = currentDate.getMonth() - birthDate.getMonth();
+    let ageDays = currentDate.getDate() - birthDate.getDate();
 
-    /// If the birth date month is later than currentDate's date month, adjust the years and months
-    if (months < 0 || (months == 0 && days < 0)) {
-        years--;
-        months += 12;
+    // If the birth date month is later than currentDate's date month, adjust the years and months
+    if (ageMonths < 0 || (ageMonths === 0 && ageDays < 0)) {
+        ageYears--;
+        ageMonths += 12;
     }
 
     // If the birth date day is later than currentDate's date day, adjust the days and months
-    if (days < 0) {
+    if (ageDays < 0) {
         const daysInLastMonth = new Date(
             currentDate.getFullYear(),
             currentDate.getMonth(),
             0
         ).getDate();
-        days += daysInLastMonth;
-        months--;
+        ageDays += daysInLastMonth;
+        ageMonths--;
     }
 
-    years.textContent = years;
-    months.textContent = months;
-    days.textContent = days;
-    const emElements = document.querySelectorAll('em');
-    emElements.forEach(element => {
-        element.style.color = 'hsl(0, 100%, 50%)';
-    });
+    years.textContent = ageYears;
+    months.textContent = ageMonths;
+    days.textContent = ageDays;
 };
 
 form.addEventListener('submit', validateForm);
